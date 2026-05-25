@@ -1,6 +1,6 @@
 # zoho-typegen
 
-> Generate TypeScript interfaces from Zoho CRM module metadata — including custom fields and picklist union types.
+> Generate TypeScript interfaces from Zoho CRM module metadata — including subforms, custom fields and picklist union types.
 
 > **Unofficial community tool. Not affiliated with or endorsed by Zoho Corporation.**
 
@@ -159,7 +159,7 @@ npx zoho-typegen
 npx zoho-typegen --modules Leads Contacts
 
 # Regenerate one module after a field change
-npx zoho-typegen --modules CustomModule1__s
+npx zoho-typegen --modules CustomModule12
 
 # Skip a known-broken module
 npx zoho-typegen --exclude Approvals
@@ -234,6 +234,13 @@ export interface ZohoLeads {
   Budget?: number;
   Referral_Source?: string;
   Custom_Status?: 'New' | 'Reviewed' | 'In Progress' | 'Closed';
+  Invoiced_Items?: Array<{
+    id: string;
+    Product_Name?: string;
+    Quantity?: number;
+    Unit_Price?: number;
+    Total?: number;
+  }>;
 }
 ```
 
@@ -283,7 +290,7 @@ Zoho picklist fields have two values: `display_value` (the label shown in the UI
 Lead_Source?: 'Cold Call' | 'Employee Referral' | 'Online Store' | ...
 ```
 
-**`actual`:** Uses the internal Zoho key.
+**`actual`:** Uses the internal Zoho key. Avoid this — if a picklist option is ever renamed in the CRM UI, the `actual_value` stays stale while `display_value` updates to match. Using `actual` also breaks for any org where options were created with generic keys like `option1`, `option2`.
 
 ```ts
 Lead_Source?: 'Cold_Call' | 'Employee_Referral' | 'Online_Store' | ...
@@ -303,7 +310,7 @@ Use `actual` only if your integration reads `actual_value` from the API response
 excludeModules: ['Approvals'],
 ```
 
-**`Actions_Performed`, `Home`, `Workqueue__s`** — Similar issue. Gracefully skipped with a warning in the console.
+**`Actions_Performed`, `Home`, `Workqueues`** — Similar issue. Gracefully skipped with a warning in the console.
 
 ---
 

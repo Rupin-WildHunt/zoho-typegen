@@ -1,0 +1,49 @@
+{
+  "name": "zoho-typegen",
+  "version": "0.1.0",
+  "description": "Generate TypeScript interfaces from Zoho CRM module metadata. Unofficial community tool.",
+  "keywords": [
+    "zoho",
+    "zoho-crm",
+    "typescript",
+    "codegen",
+    "types"
+  ],
+  "author": "Rupin Wildhunt",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Rupin-WildHunt/zoho-typegen.git"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "bin": {
+    "zoho-typegen": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "zoho-typegen.config.example.ts"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "commander": "^12.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "@types/node": "^20.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

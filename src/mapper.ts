@@ -1,0 +1,102 @@
+export interface ZohoPickListValue {
+  actual_value: string;
+  display_value: string;
+}
+
+export interface ZohoField {
+  api_name: string;
+  data_type: string;
+  system_mandatory: boolean;
+  custom_field: boolean;
+  field_label: string;
+  pick_list_values: ZohoPickListValue[];
+  subform_fields?: ZohoField[];
+}
+
+export interface MappingOptions {
+  picklistValues?: 'actual' | 'display';
+}
+
+// Zoho uses generic placeholders like 'option1', 'option2' for some actual_values
+const GENERIC_VALUE_RE = /^option\d+$/i;
+
+function resolvePicklistValues(
+  pickListValues: ZohoPickListValue[],
+  opts: MappingOptions = {}
+): string[] {
+  const useActual = opts.picklistValues === 'actual';
+  return pickListValues
+    .map((v) => {
+      const actual = v.actual_value ?? '';
+      const display = v.display_value ?? '';
+      if (useActual) return GENERIC_VALUE_RE.test(actual) ? display : actual;
+      return display;
+    })
+    .filter((v) => v !== '' && v !== '-None-');
+}
+
+export function mapFieldType(field: ZohoField, opts: MappingOptions = {}): string {
+  switch (field.data_type) {
+    case 'text':
+    case 'textarea':
+    case 'email':
+    case 'phone':
+    case 'website':
+    case 'url':
+    case 'encrypted':
+    case 'autonumber':
+      return 'string';
+
+    case 'integer':
+    case 'bigint':
+    case 'double':
+    case 'decimal':
+    case 'currency':
+    case 'percent':
+      return 'number';
+
+    case 'boolean':
+      return 'boolean';
+
+    case 'date':
+      return 'string'; // YYYY-MM-DD
+
+    case 'datetime':
+      return 'string'; // ISO 8601
+
+    case 'picklist': {
+      const values = resolvePicklistValues(field.pick_list_values, opts);
+      if (values.length === 0) return 'string';
+      return values.map((v) => `'${v.replace(/'/g, "\\'")}'`).join(' | ');
+    }
+
+    case 'multiselectpicklist': {
+      const values = resolvePicklistValues(field.pick_list_values, opts);
+      if (values.length === 0) return 'string[]';
+      const union = values.map((v) => `'${v.replace(/'/g, "\\'")}'`).join(' | ');
+      return `Array<${union}>`;
+    }
+
+    case 'lookup':
+    case 'ownerlookup':
+    case 'userlookup':
+      return '{ id: string; name: string }';
+
+    case 'formula':
+      return 'string | number | boolean';
+
+    case 'fileupload':
+    case 'imageupload':
+    case 'profileimage':
+      return 'string';
+
+    case 'layout':
+      return '{ id: string; name: string }';
+
+    case 'subform':
+      return '__subform__';
+
+    default:
+      return 'unknown';
+  }
+}
