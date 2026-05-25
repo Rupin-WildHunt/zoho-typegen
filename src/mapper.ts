@@ -49,12 +49,14 @@ export function mapFieldType(field: ZohoField, opts: MappingOptions = {}): strin
       return 'string';
 
     case 'integer':
-    case 'bigint':
     case 'double':
     case 'decimal':
     case 'currency':
     case 'percent':
       return 'number';
+
+    case 'bigint':
+      return 'string'; // Zoho returns bigint fields as strings in API responses to avoid JS precision loss
 
     case 'boolean':
       return 'boolean';
@@ -79,9 +81,11 @@ export function mapFieldType(field: ZohoField, opts: MappingOptions = {}): strin
     }
 
     case 'lookup':
+      return '{ id: string; name: string }';
+
     case 'ownerlookup':
     case 'userlookup':
-      return '{ id: string; name: string }';
+      return '{ id: string; name: string; email?: string }'; // user lookups include email in API responses
 
     case 'formula':
       return 'string | number | boolean';
@@ -94,7 +98,7 @@ export function mapFieldType(field: ZohoField, opts: MappingOptions = {}): strin
       return 'string'; // Profile image is a URL string, not a file upload array
 
     case 'layout':
-      return '{ id: string; name: string }';
+      return '{ id: string; name: string; display_label?: string }'; // layout fields include display_label in API responses
 
     case 'subform':
       return '__subform__';
