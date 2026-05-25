@@ -88,8 +88,7 @@ export function mapFieldType(field: ZohoField, opts: MappingOptions = {}): strin
 
     case 'fileupload':
     case 'imageupload':
-      // Zoho returns an array of file objects (json_type === 'jsonarray')
-      return 'Array<{ file_Id: string; file_Name: string; size: number; created_time: string; modified_time: string; file_status: string }>';
+      return 'Array<{ file_Id: string; file_Name: string; attachment_Id: string; extn: string; file_Size: string; original_Size_Byte: string; download_Url: string; preview_Url: string; delete_Url: string; is_Preview_Available: boolean; mode: string; entity_Id: number; creator_Id: number; link_Docs: number }>';
 
     case 'profileimage':
       return 'string'; // Profile image is a URL string, not a file upload array
