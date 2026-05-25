@@ -20,30 +20,17 @@ Custom fields are included automatically. No manual type maintenance.
 
 ---
 
-## Installation
+## Quick Start
 
-**Project devDependency (recommended):**
+**1. Install:**
 
 ```bash
 npm install --save-dev zoho-typegen
-npx zoho-typegen
 ```
 
-**Global:**
+**2. Create a config file** in your project root:
 
 ```bash
-npm install -g zoho-typegen
-zoho-typegen
-```
-
----
-
-## Quick Start
-
-**1. Create a config file** in your project root:
-
-```bash
-# Copy the example from the package
 cp node_modules/zoho-typegen/zoho-typegen.config.example.ts zoho-typegen.config.js
 ```
 
@@ -56,13 +43,29 @@ export default {
 };
 ```
 
-**2. Run:**
+**3. Run:**
 
 ```bash
 npx zoho-typegen
 ```
 
 That's it. Per-module `.ts` files and a barrel `index.ts` are written to `outputDir`.
+
+---
+
+## Installation
+
+**Project devDependency (recommended):**
+
+```bash
+npm install --save-dev zoho-typegen
+```
+
+**Global:**
+
+```bash
+npm install -g zoho-typegen
+```
 
 ---
 
