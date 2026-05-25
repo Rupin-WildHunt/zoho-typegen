@@ -20,6 +20,18 @@ Custom fields are included automatically. No manual type maintenance.
 
 ---
 
+## Prerequisites
+
+You need a valid Zoho CRM access token before using this tool. If you don't have one yet, set up a Zoho OAuth client at [accounts.zoho.com/developerconsole](https://accounts.zoho.com/developerconsole) and follow [Zoho's OAuth guide](https://www.zoho.com/crm/developer/docs/api/v8/oauth-overview.html) to get an access token.
+
+The token format expected by `getToken()` is the full header value:
+
+```
+Zoho-oauthtoken 1000.xxxxxxxxxxxxxxx
+```
+
+---
+
 ## Quick Start
 
 **1. Install:**
@@ -28,13 +40,7 @@ Custom fields are included automatically. No manual type maintenance.
 npm install --save-dev zoho-typegen
 ```
 
-**2. Create a config file** in your project root:
-
-```bash
-cp node_modules/zoho-typegen/zoho-typegen.config.example.ts zoho-typegen.config.js
-```
-
-Edit `zoho-typegen.config.js`:
+**2. Create `zoho-typegen.config.js`** in your project root:
 
 ```js
 export default {
@@ -86,7 +92,7 @@ getToken: async () => {
   return row.value;
 },
 
-// From MongoDB in a Meteor app
+// From a settings collection in a Meteor app
 getToken: () => Settings.findOne({ key: 'zoho_access_token' })?.value,
 ```
 
@@ -115,15 +121,15 @@ These are read-only metadata scopes — the tool never reads, writes, or modifie
 
 Create `zoho-typegen.config.js` (ESM) or `zoho-typegen.config.ts` in your project root. See `zoho-typegen.config.example.ts` (included in the package) for a full copy-paste template.
 
-| Option                | Type                              | Default                   | Description                                    |
-| --------------------- | --------------------------------- | ------------------------- | ---------------------------------------------- |
-| `getToken`            | `() => string \| Promise<string>` | **required**              | Returns a valid Zoho CRM access token          |
-| `outputDir`           | `string`                          | `'./zoho-typegen-output'` | Where to write the generated `.ts` files       |
-| `picklistValues`      | `'display' \| 'actual'`           | `'display'`               | Which picklist value to use for union literals |
-| `excludeModules`      | `string[]`                        | `[]`                      | Module `api_name`s to always skip              |
-| `includeModules`      | `string[]`                        | `[]` (all)                | Only generate these modules                    |
-| `includeUserHidden`   | `boolean`                         | `false`                   | Include `user_hidden` modules                  |
-| `includeSystemHidden` | `boolean`                         | `false`                   | Include `system_hidden` modules                |
+| Option                | Type                              | Default          | Description                                    |
+| --------------------- | --------------------------------- | ---------------- | ---------------------------------------------- |
+| `getToken`            | `() => string \| Promise<string>` | **required**     | Returns a valid Zoho CRM access token          |
+| `outputDir`           | `string`                          | `'./types/zoho'` | Where to write the generated `.ts` files       |
+| `picklistValues`      | `'display' \| 'actual'`           | `'display'`      | Which picklist value to use for union literals |
+| `excludeModules`      | `string[]`                        | `[]`             | Module `api_name`s to always skip              |
+| `includeModules`      | `string[]`                        | `[]` (all)       | Only generate these modules                    |
+| `includeUserHidden`   | `boolean`                         | `false`          | Include `user_hidden` modules                  |
+| `includeSystemHidden` | `boolean`                         | `false`          | Include `system_hidden` modules                |
 
 ---
 

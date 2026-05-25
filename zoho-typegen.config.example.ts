@@ -8,7 +8,7 @@ export default {
   // Example: getToken: () => process.env.ZOHO_TOKEN,
   // Example: getToken: () => getZohoTokenFromDb(),
 
-  outputDir: './src/types/zoho',
+  outputDir: './types/zoho',
 
   // MORE OPTIONS
 

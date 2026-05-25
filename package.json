@@ -1,6 +1,6 @@
 {
   "name": "zoho-typegen",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Generate TypeScript interfaces from Zoho CRM module metadata. Unofficial community tool.",
   "keywords": [
     "zoho",

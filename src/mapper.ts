@@ -6,6 +6,7 @@ export interface ZohoPickListValue {
 export interface ZohoField {
   api_name: string;
   data_type: string;
+  json_type: string | null; // e.g. 'jsonarray', 'jsonobject', null
   system_mandatory: boolean;
   custom_field: boolean;
   field_label: string;
@@ -87,8 +88,11 @@ export function mapFieldType(field: ZohoField, opts: MappingOptions = {}): strin
 
     case 'fileupload':
     case 'imageupload':
+      // Zoho returns an array of file objects (json_type === 'jsonarray')
+      return 'Array<{ file_Id: string; file_Name: string; size: number; created_time: string; modified_time: string; file_status: string }>';
+
     case 'profileimage':
-      return 'string';
+      return 'string'; // Profile image is a URL string, not a file upload array
 
     case 'layout':
       return '{ id: string; name: string }';

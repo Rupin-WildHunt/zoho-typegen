@@ -86,7 +86,7 @@ async function cmdGenerate(
   const merged = { ...config, ...cliOverrides };
 
   const accessToken = await merged.getToken();
-  const outputDir = path.resolve(process.cwd(), merged.outputDir ?? './zoho-typegen-output');
+  const outputDir = path.resolve(process.cwd(), merged.outputDir ?? './types/zoho');
   const opts: RunOptions = {
     includeUserHidden: merged.includeUserHidden ?? false,
     includeSystemHidden: merged.includeSystemHidden ?? false,

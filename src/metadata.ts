@@ -63,6 +63,7 @@ interface ZohoModulesApiResponse {
 interface ZohoRawField {
   api_name: string;
   data_type: string;
+  json_type: string | null;
   system_mandatory: boolean;
   custom_field: boolean;
   field_label: string;
@@ -137,6 +138,7 @@ export async function fetchFields(
     const field: ZohoField = {
       api_name: f.api_name,
       data_type: f.data_type,
+      json_type: f.json_type ?? null,
       system_mandatory: f.system_mandatory ?? false,
       custom_field: f.custom_field ?? false,
       field_label: f.field_label ?? '',
