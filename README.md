@@ -228,6 +228,8 @@ export interface ZohoLeads {
   Budget?: number;
   Referral_Source?: string;
   Custom_Status?: 'New' | 'Reviewed' | 'In Progress' | 'Closed';
+
+  // Subform
   Invoiced_Items?: Array<{
     id: string;
     Product_Name?: string;
