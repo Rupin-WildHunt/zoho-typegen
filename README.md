@@ -22,9 +22,10 @@ Custom fields are included automatically. No manual type maintenance.
 
 ## Installation
 
-**npx (no install needed):**
+**Project devDependency (recommended):**
 
 ```bash
+npm install --save-dev zoho-typegen
 npx zoho-typegen
 ```
 
@@ -33,13 +34,6 @@ npx zoho-typegen
 ```bash
 npm install -g zoho-typegen
 zoho-typegen
-```
-
-**Project devDependency:**
-
-```bash
-npm install --save-dev zoho-typegen
-npx zoho-typegen
 ```
 
 ---
